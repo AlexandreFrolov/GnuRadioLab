@@ -28,7 +28,7 @@ options:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [8, 8]
+    coordinate: [40, 52.0]
     rotation: 0
     state: enabled
 
@@ -42,7 +42,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [200, 12]
+    coordinate: [224, 52.0]
     rotation: 0
     state: enabled
 - name: analog_sig_source_x_0
@@ -123,7 +123,7 @@ blocks:
     marker9: '-1'
     name: '""'
     nconnections: '1'
-    size: '256'
+    size: '1024'
     srate: samp_rate
     stemplot: 'False'
     style1: '1'
