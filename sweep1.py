@@ -122,7 +122,7 @@ class sweep1(gr.top_block, Qt.QWidget):
         self.blocks_vco_f_0 = blocks.vco_f(samp_rate, 800, 1)
         self.blocks_add_xx_0 = blocks.add_vff(1)
         self.audio_sink_0 = audio.sink(samp_rate, '', True)
-        self.analog_sig_source_x_0 = analog.sig_source_f(samp_rate, analog.GR_COS_WAVE, 1, 1, 0, 0)
+        self.analog_sig_source_x_0 = analog.sig_source_f(samp_rate, analog.GR_SAW_WAVE, 1, 1, 0, 0)
         self.analog_const_source_x_0 = analog.sig_source_f(0, analog.GR_CONST_WAVE, 0, 0, 1.5)
 
 
