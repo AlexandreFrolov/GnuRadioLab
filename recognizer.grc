@@ -28,7 +28,7 @@ options:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [104, 44.0]
+    coordinate: [112, 52.0]
     rotation: 0
     state: enabled
 
@@ -42,7 +42,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [304, 44.0]
+    coordinate: [112, 140.0]
     rotation: 0
     state: enabled
 - name: audio_source_0
@@ -61,7 +61,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [136, 268.0]
+    coordinate: [112, 268.0]
     rotation: 0
     state: enabled
 - name: band_pass_filter_0
@@ -86,7 +86,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [464, 316.0]
+    coordinate: [424, 228.0]
     rotation: 0
     state: enabled
 - name: blocks_wavfile_sink_0
@@ -108,7 +108,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [680, 332.0]
+    coordinate: [656, 124.0]
     rotation: 0
     state: enabled
 - name: epy_block_0
@@ -209,7 +209,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [688, 460.0]
+    coordinate: [656, 244.0]
     rotation: 0
     state: enabled
 - name: qtgui_freq_sink_x_0
@@ -290,7 +290,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [464, 44.0]
+    coordinate: [424, 52.0]
     rotation: 0
     state: enabled
 - name: qtgui_time_sink_x_0
@@ -387,7 +387,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [464, 132.0]
+    coordinate: [424, 140.0]
     rotation: 0
     state: enabled
 - name: qtgui_waterfall_sink_x_0
@@ -448,7 +448,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [464, 228.0]
+    coordinate: [424, 380.0]
     rotation: 0
     state: enabled
 
