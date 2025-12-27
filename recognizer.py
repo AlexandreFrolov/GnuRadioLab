@@ -197,6 +197,15 @@ class recognizer(gr.top_block, Qt.QWidget):
 
         self._qtgui_freq_sink_x_0_win = sip.wrapinstance(self.qtgui_freq_sink_x_0.qwidget(), Qt.QWidget)
         self.top_layout.addWidget(self._qtgui_freq_sink_x_0_win)
+        self.high_pass_filter_0 = filter.fir_filter_fff(
+            1,
+            firdes.high_pass(
+                1,
+                samp_rate,
+                50,
+                100,
+                window.WIN_HAMMING,
+                6.76))
         self.epy_block_0 = epy_block_0.blk(whisper_path="C:/whisper/whisper-cli.exe", model_path="C:/whisper/models/ggml-small.bin", sample_rate=48000, buffer_seconds=10, output_dir="C:/gnuradio_files")
         self.blocks_wavfile_sink_0 = blocks.wavfile_sink(
             'C:\\gnuradio_files\\records.wav',
@@ -222,12 +231,13 @@ class recognizer(gr.top_block, Qt.QWidget):
         ##################################################
         # Connections
         ##################################################
-        self.connect((self.audio_source_0, 0), (self.band_pass_filter_0, 0))
-        self.connect((self.audio_source_0, 0), (self.qtgui_freq_sink_x_0, 0))
-        self.connect((self.audio_source_0, 0), (self.qtgui_time_sink_x_0, 0))
-        self.connect((self.audio_source_0, 0), (self.qtgui_waterfall_sink_x_0, 0))
+        self.connect((self.audio_source_0, 0), (self.high_pass_filter_0, 0))
         self.connect((self.band_pass_filter_0, 0), (self.blocks_wavfile_sink_0, 0))
         self.connect((self.band_pass_filter_0, 0), (self.epy_block_0, 0))
+        self.connect((self.high_pass_filter_0, 0), (self.band_pass_filter_0, 0))
+        self.connect((self.high_pass_filter_0, 0), (self.qtgui_freq_sink_x_0, 0))
+        self.connect((self.high_pass_filter_0, 0), (self.qtgui_time_sink_x_0, 0))
+        self.connect((self.high_pass_filter_0, 0), (self.qtgui_waterfall_sink_x_0, 0))
 
 
     def closeEvent(self, event):
@@ -247,6 +257,7 @@ class recognizer(gr.top_block, Qt.QWidget):
         self.qtgui_freq_sink_x_0.set_frequency_range(0, self.samp_rate)
         self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
         self.qtgui_waterfall_sink_x_0.set_frequency_range(0, self.samp_rate)
+        self.high_pass_filter_0.set_taps(firdes.high_pass(1, self.samp_rate, 50, 100, window.WIN_HAMMING, 6.76))
 
 
 
