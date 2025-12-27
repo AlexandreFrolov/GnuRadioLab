@@ -51,7 +51,7 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
-    device_name: ''
+    device_name: "\u041C\u0438\u043A\u0440\u043E\u0444\u043E\u043D (Logi C270 HD WebCam)"
     maxoutbuf: '0'
     minoutbuf: '0'
     num_outputs: '1'
@@ -61,7 +61,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [248, 268.0]
+    coordinate: [136, 268.0]
     rotation: 0
     state: enabled
 - name: band_pass_filter_0
@@ -109,6 +109,41 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [680, 332.0]
+    rotation: 0
+    state: enabled
+- name: epy_block_0
+  id: epy_block
+  parameters:
+    _source_code: "\"\"\"\nEmbedded Python Blocks:\n\nEach time this file is saved,\
+      \ GRC will instantiate the first class it finds\nto get ports and parameters\
+      \ of your block. The arguments to __init__  will\nbe the parameters. All of\
+      \ them are required to have default values!\n\"\"\"\n\nimport numpy as np\n\
+      from gnuradio import gr\n\n\nclass blk(gr.sync_block):  # other base classes\
+      \ are basic_block, decim_block, interp_block\n    \"\"\"Embedded Python Block\
+      \ example - a simple multiply const\"\"\"\n\n    def __init__(self, example_param=1.0):\
+      \  # only default arguments here\n        \"\"\"arguments to this function show\
+      \ up as parameters in GRC\"\"\"\n        gr.sync_block.__init__(\n         \
+      \   self,\n            name='Embedded Python Block',   # will show up in GRC\n\
+      \            in_sig=[np.float32],\n            out_sig=[np.float32]\n      \
+      \  )\n        # if an attribute with the same name as a parameter is found,\n\
+      \        # a callback is registered (properties work, too).\n        self.example_param\
+      \ = example_param\n\n    def work(self, input_items, output_items):\n      \
+      \  \"\"\"example: multiply with constant\"\"\"\n        output_items[0][:] =\
+      \ input_items[0] * self.example_param\n        return len(output_items[0])\n"
+    affinity: ''
+    alias: ''
+    comment: ''
+    example_param: '1.0'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    _io_cache: ('Embedded Python Block', 'blk', [('example_param', '1.0')], [('0',
+      'float', 1)], [('0', 'float', 1)], 'Embedded Python Block example - a simple
+      multiply const', ['example_param'])
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [688, 508.0]
     rotation: 0
     state: enabled
 - name: qtgui_freq_sink_x_0
@@ -350,6 +385,67 @@ blocks:
     coordinate: [464, 228.0]
     rotation: 0
     state: enabled
+- name: qtgui_waterfall_sink_x_1
+  id: qtgui_waterfall_sink_x
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha1: '1.0'
+    alpha10: '1.0'
+    alpha2: '1.0'
+    alpha3: '1.0'
+    alpha4: '1.0'
+    alpha5: '1.0'
+    alpha6: '1.0'
+    alpha7: '1.0'
+    alpha8: '1.0'
+    alpha9: '1.0'
+    axislabels: 'True'
+    bw: samp_rate
+    color1: '0'
+    color10: '0'
+    color2: '0'
+    color3: '0'
+    color4: '0'
+    color5: '0'
+    color6: '0'
+    color7: '0'
+    color8: '0'
+    color9: '0'
+    comment: ''
+    fc: '0'
+    fftsize: '1024'
+    freqhalf: 'True'
+    grid: 'False'
+    gui_hint: ''
+    int_max: '10'
+    int_min: '-140'
+    label1: ''
+    label10: ''
+    label2: ''
+    label3: ''
+    label4: ''
+    label5: ''
+    label6: ''
+    label7: ''
+    label8: ''
+    label9: ''
+    legend: 'True'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    name: '""'
+    nconnections: '1'
+    showports: 'False'
+    type: float
+    update_time: '0.10'
+    wintype: window.WIN_BLACKMAN_hARRIS
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [928, 492.0]
+    rotation: 0
+    state: enabled
 
 connections:
 - [audio_source_0, '0', band_pass_filter_0, '0']
@@ -357,6 +453,8 @@ connections:
 - [audio_source_0, '0', qtgui_time_sink_x_0, '0']
 - [audio_source_0, '0', qtgui_waterfall_sink_x_0, '0']
 - [band_pass_filter_0, '0', blocks_wavfile_sink_0, '0']
+- [band_pass_filter_0, '0', epy_block_0, '0']
+- [epy_block_0, '0', qtgui_waterfall_sink_x_1, '0']
 
 metadata:
   file_format: 1
