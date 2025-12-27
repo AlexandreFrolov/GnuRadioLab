@@ -6,14 +6,11 @@
 #
 # GNU Radio Python Flow Graph
 # Title: Not titled yet
-# Author: admin
 # GNU Radio version: 3.10.12.0
 
 from PyQt5 import Qt
 from gnuradio import qtgui
-from PyQt5 import QtCore
-from gnuradio import analog
-from gnuradio import blocks
+from gnuradio import audio
 from gnuradio import gr
 from gnuradio.filter import firdes
 from gnuradio.fft import window
@@ -28,7 +25,7 @@ import threading
 
 
 
-class am(gr.top_block, Qt.QWidget):
+class recognizer(gr.top_block, Qt.QWidget):
 
     def __init__(self):
         gr.top_block.__init__(self, "Not titled yet", catch_exceptions=True)
@@ -51,7 +48,7 @@ class am(gr.top_block, Qt.QWidget):
         self.top_grid_layout = Qt.QGridLayout()
         self.top_layout.addLayout(self.top_grid_layout)
 
-        self.settings = Qt.QSettings("gnuradio/flowgraphs", "am")
+        self.settings = Qt.QSettings("gnuradio/flowgraphs", "recognizer")
 
         try:
             geometry = self.settings.value("geometry")
@@ -64,66 +61,26 @@ class am(gr.top_block, Qt.QWidget):
         ##################################################
         # Variables
         ##################################################
-        self.samp_rate = samp_rate = 192e3
-        self.mod_index = mod_index = 0.5
+        self.samp_rate = samp_rate = 48000
 
         ##################################################
         # Blocks
         ##################################################
 
-        self._mod_index_range = qtgui.Range(0.0, 1.5, 0.01, 0.5, 200)
-        self._mod_index_win = qtgui.RangeWidget(self._mod_index_range, self.set_mod_index, "Глубина модуляции", "slider", float, QtCore.Qt.Horizontal)
-        self.top_layout.addWidget(self._mod_index_win)
-        self.qtgui_waterfall_sink_x_0 = qtgui.waterfall_sink_f(
-            4096, #size
-            window.WIN_BLACKMAN_hARRIS, #wintype
-            0, #fc
-            samp_rate, #bw
-            "", #name
-            1, #number of inputs
-            None # parent
-        )
-        self.qtgui_waterfall_sink_x_0.set_update_time(0.10)
-        self.qtgui_waterfall_sink_x_0.enable_grid(False)
-        self.qtgui_waterfall_sink_x_0.enable_axis_labels(True)
-
-
-        self.qtgui_waterfall_sink_x_0.set_plot_pos_half(not True)
-
-        labels = ['', '', '', '', '',
-                  '', '', '', '', '']
-        colors = [0, 0, 0, 0, 0,
-                  0, 0, 0, 0, 0]
-        alphas = [1.0, 1.0, 1.0, 1.0, 1.0,
-                  1.0, 1.0, 1.0, 1.0, 1.0]
-
-        for i in range(1):
-            if len(labels[i]) == 0:
-                self.qtgui_waterfall_sink_x_0.set_line_label(i, "Data {0}".format(i))
-            else:
-                self.qtgui_waterfall_sink_x_0.set_line_label(i, labels[i])
-            self.qtgui_waterfall_sink_x_0.set_color_map(i, colors[i])
-            self.qtgui_waterfall_sink_x_0.set_line_alpha(i, alphas[i])
-
-        self.qtgui_waterfall_sink_x_0.set_intensity_range(-140, 10)
-
-        self._qtgui_waterfall_sink_x_0_win = sip.wrapinstance(self.qtgui_waterfall_sink_x_0.qwidget(), Qt.QWidget)
-
-        self.top_layout.addWidget(self._qtgui_waterfall_sink_x_0_win)
         self.qtgui_time_sink_x_0 = qtgui.time_sink_f(
-            200, #size
+            1024, #size
             samp_rate, #samp_rate
             "", #name
             1, #number of inputs
             None # parent
         )
-        self.qtgui_time_sink_x_0.set_update_time(0.05)
+        self.qtgui_time_sink_x_0.set_update_time(0.10)
         self.qtgui_time_sink_x_0.set_y_axis(-1, 1)
 
         self.qtgui_time_sink_x_0.set_y_label('Amplitude', "")
 
         self.qtgui_time_sink_x_0.enable_tags(True)
-        self.qtgui_time_sink_x_0.set_trigger_mode(qtgui.TRIG_MODE_NORM, qtgui.TRIG_SLOPE_POS, 0.0, 0, 0, "")
+        self.qtgui_time_sink_x_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, 0, "")
         self.qtgui_time_sink_x_0.enable_autoscale(False)
         self.qtgui_time_sink_x_0.enable_grid(False)
         self.qtgui_time_sink_x_0.enable_axis_labels(True)
@@ -159,8 +116,8 @@ class am(gr.top_block, Qt.QWidget):
         self._qtgui_time_sink_x_0_win = sip.wrapinstance(self.qtgui_time_sink_x_0.qwidget(), Qt.QWidget)
         self.top_layout.addWidget(self._qtgui_time_sink_x_0_win)
         self.qtgui_freq_sink_x_0 = qtgui.freq_sink_f(
-            4096, #size
-            window.WIN_KAISER, #wintype
+            1024, #size
+            window.WIN_BLACKMAN_hARRIS, #wintype
             0, #fc
             samp_rate, #bw
             "", #name
@@ -201,27 +158,18 @@ class am(gr.top_block, Qt.QWidget):
 
         self._qtgui_freq_sink_x_0_win = sip.wrapinstance(self.qtgui_freq_sink_x_0.qwidget(), Qt.QWidget)
         self.top_layout.addWidget(self._qtgui_freq_sink_x_0_win)
-        self.blocks_vco_f_0 = blocks.vco_f(samp_rate, 200, 1)
-        self.blocks_multiply_const_vxx_0 = blocks.multiply_const_ff(mod_index)
-        self.blocks_add_xx_0 = blocks.add_vff(1)
-        self.analog_sig_source_x_0 = analog.sig_source_f(samp_rate, analog.GR_SIN_WAVE, 1e3, 1, 0, 0)
-        self.analog_const_source_x_0 = analog.sig_source_f(0, analog.GR_CONST_WAVE, 0, 0, 5000)
+        self.audio_source_0 = audio.source(samp_rate, '', True)
 
 
         ##################################################
         # Connections
         ##################################################
-        self.connect((self.analog_const_source_x_0, 0), (self.blocks_add_xx_0, 1))
-        self.connect((self.analog_sig_source_x_0, 0), (self.blocks_multiply_const_vxx_0, 0))
-        self.connect((self.blocks_add_xx_0, 0), (self.blocks_vco_f_0, 0))
-        self.connect((self.blocks_multiply_const_vxx_0, 0), (self.blocks_add_xx_0, 0))
-        self.connect((self.blocks_vco_f_0, 0), (self.qtgui_freq_sink_x_0, 0))
-        self.connect((self.blocks_vco_f_0, 0), (self.qtgui_time_sink_x_0, 0))
-        self.connect((self.blocks_vco_f_0, 0), (self.qtgui_waterfall_sink_x_0, 0))
+        self.connect((self.audio_source_0, 0), (self.qtgui_freq_sink_x_0, 0))
+        self.connect((self.audio_source_0, 0), (self.qtgui_time_sink_x_0, 0))
 
 
     def closeEvent(self, event):
-        self.settings = Qt.QSettings("gnuradio/flowgraphs", "am")
+        self.settings = Qt.QSettings("gnuradio/flowgraphs", "recognizer")
         self.settings.setValue("geometry", self.saveGeometry())
         self.stop()
         self.wait()
@@ -233,22 +181,13 @@ class am(gr.top_block, Qt.QWidget):
 
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
-        self.analog_sig_source_x_0.set_sampling_freq(self.samp_rate)
         self.qtgui_freq_sink_x_0.set_frequency_range(0, self.samp_rate)
         self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
-        self.qtgui_waterfall_sink_x_0.set_frequency_range(0, self.samp_rate)
-
-    def get_mod_index(self):
-        return self.mod_index
-
-    def set_mod_index(self, mod_index):
-        self.mod_index = mod_index
-        self.blocks_multiply_const_vxx_0.set_k(self.mod_index)
 
 
 
 
-def main(top_block_cls=am, options=None):
+def main(top_block_cls=recognizer, options=None):
 
     qapp = Qt.QApplication(sys.argv)
 
