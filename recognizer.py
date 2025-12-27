@@ -12,6 +12,7 @@ from PyQt5 import Qt
 from gnuradio import qtgui
 from gnuradio import audio
 from gnuradio import blocks
+import pmt
 from gnuradio import filter
 from gnuradio.filter import firdes
 from gnuradio import gr
@@ -22,6 +23,7 @@ from PyQt5 import Qt
 from argparse import ArgumentParser
 from gnuradio.eng_arg import eng_float, intx
 from gnuradio import eng_notation
+import foo
 import sip
 import threading
 
@@ -64,11 +66,25 @@ class recognizer(gr.top_block, Qt.QWidget):
         # Variables
         ##################################################
         self.samp_rate = samp_rate = 24000
+        self.rec_toggle = rec_toggle = 0
+        self.play_toggle = play_toggle = 0
 
         ##################################################
         # Blocks
         ##################################################
 
+        _rec_toggle_push_button = Qt.QPushButton('REC')
+        _rec_toggle_push_button = Qt.QPushButton('REC')
+        self._rec_toggle_choices = {'Pressed': 1, 'Released': 0}
+        _rec_toggle_push_button.pressed.connect(lambda: self.set_rec_toggle(self._rec_toggle_choices['Pressed']))
+        _rec_toggle_push_button.released.connect(lambda: self.set_rec_toggle(self._rec_toggle_choices['Released']))
+        self.top_layout.addWidget(_rec_toggle_push_button)
+        _play_toggle_push_button = Qt.QPushButton('PLAY')
+        _play_toggle_push_button = Qt.QPushButton('PLAY')
+        self._play_toggle_choices = {'Pressed': 1, 'Released': 0}
+        _play_toggle_push_button.pressed.connect(lambda: self.set_play_toggle(self._play_toggle_choices['Pressed']))
+        _play_toggle_push_button.released.connect(lambda: self.set_play_toggle(self._play_toggle_choices['Released']))
+        self.top_layout.addWidget(_play_toggle_push_button)
         self.qtgui_waterfall_sink_x_0 = qtgui.waterfall_sink_f(
             1024, #size
             window.WIN_BLACKMAN_hARRIS, #wintype
@@ -164,6 +180,8 @@ class recognizer(gr.top_block, Qt.QWidget):
                 100,
                 window.WIN_HAMMING,
                 6.76))
+        self.foo_valve_0 = foo.valve(item_size=gr.sizeof_float*1, open=bool(0))
+        self.blocks_wavfile_source_0 = blocks.wavfile_source('C:\\gnuradio_files\\records.wav', True)
         self.blocks_wavfile_sink_0 = blocks.wavfile_sink(
             'C:\\gnuradio_files\\records.wav',
             1,
@@ -172,6 +190,9 @@ class recognizer(gr.top_block, Qt.QWidget):
             blocks.FORMAT_PCM_16,
             False
             )
+        self.blocks_selector_0 = blocks.selector(gr.sizeof_float*1,play_toggle,0)
+        self.blocks_selector_0.set_enabled(True)
+        self.blocks_message_strobe_0 = blocks.message_strobe(pmt.from_bool(rec_toggle), 0)
         self.band_pass_filter_0 = filter.fir_filter_fff(
             1,
             firdes.band_pass(
@@ -190,10 +211,13 @@ class recognizer(gr.top_block, Qt.QWidget):
         # Connections
         ##################################################
         self.connect((self.audio_source_0, 0), (self.high_pass_filter_0, 0))
-        self.connect((self.band_pass_filter_0, 0), (self.audio_sink_0, 0))
-        self.connect((self.band_pass_filter_0, 0), (self.blocks_wavfile_sink_0, 0))
-        self.connect((self.band_pass_filter_0, 0), (self.qtgui_time_sink_x_0, 0))
-        self.connect((self.band_pass_filter_0, 0), (self.qtgui_waterfall_sink_x_0, 0))
+        self.connect((self.band_pass_filter_0, 0), (self.blocks_selector_0, 0))
+        self.connect((self.band_pass_filter_0, 0), (self.foo_valve_0, 0))
+        self.connect((self.blocks_selector_0, 0), (self.audio_sink_0, 0))
+        self.connect((self.blocks_selector_0, 0), (self.qtgui_time_sink_x_0, 0))
+        self.connect((self.blocks_selector_0, 0), (self.qtgui_waterfall_sink_x_0, 0))
+        self.connect((self.blocks_wavfile_source_0, 0), (self.blocks_selector_0, 1))
+        self.connect((self.foo_valve_0, 0), (self.blocks_wavfile_sink_0, 0))
         self.connect((self.high_pass_filter_0, 0), (self.band_pass_filter_0, 0))
 
 
@@ -214,6 +238,20 @@ class recognizer(gr.top_block, Qt.QWidget):
         self.high_pass_filter_0.set_taps(firdes.high_pass(1, self.samp_rate, 50, 100, window.WIN_HAMMING, 6.76))
         self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
         self.qtgui_waterfall_sink_x_0.set_frequency_range(0, self.samp_rate)
+
+    def get_rec_toggle(self):
+        return self.rec_toggle
+
+    def set_rec_toggle(self, rec_toggle):
+        self.rec_toggle = rec_toggle
+        self.blocks_message_strobe_0.set_msg(pmt.from_bool(self.rec_toggle))
+
+    def get_play_toggle(self):
+        return self.play_toggle
+
+    def set_play_toggle(self, play_toggle):
+        self.play_toggle = play_toggle
+        self.blocks_selector_0.set_input_index(self.play_toggle)
 
 
 
