@@ -28,7 +28,7 @@ options:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [104, 44.0]
+    coordinate: [88, 124.0]
     rotation: 0
     state: enabled
 
@@ -37,12 +37,29 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '48000'
+    value: '24000'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [304, 44.0]
+    coordinate: [288, 124.0]
+    rotation: 0
+    state: enabled
+- name: audio_sink_0
+  id: audio_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    device_name: ''
+    num_inputs: '1'
+    ok_to_block: 'True'
+    samp_rate: samp_rate
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [760, 124.0]
     rotation: 0
     state: enabled
 - name: audio_source_0
@@ -51,7 +68,7 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
-    device_name: ''
+    device_name: "\u041C\u0438\u043A\u0440\u043E\u0444\u043E\u043D (Logi C270 HD WebCam)"
     maxoutbuf: '0'
     minoutbuf: '0'
     num_outputs: '1'
@@ -61,7 +78,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [248, 268.0]
+    coordinate: [80, 276.0]
     rotation: 0
     state: enabled
 - name: band_pass_filter_0
@@ -72,21 +89,21 @@ blocks:
     beta: '6.76'
     comment: ''
     decim: '1'
-    gain: '1'
-    high_cutoff_freq: '5000'
+    gain: '1.5'
+    high_cutoff_freq: '3400'
     interp: '1'
     low_cutoff_freq: '200'
     maxoutbuf: '0'
     minoutbuf: '0'
     samp_rate: samp_rate
     type: fir_filter_fff
-    width: '100'
+    width: '200'
     win: window.WIN_HAMMING
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [464, 316.0]
+    coordinate: [520, 236.0]
     rotation: 0
     state: enabled
 - name: blocks_wavfile_sink_0
@@ -108,88 +125,31 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [680, 332.0]
+    coordinate: [760, 356.0]
     rotation: 0
     state: enabled
-- name: qtgui_freq_sink_x_0
-  id: qtgui_freq_sink_x
+- name: high_pass_filter_0
+  id: high_pass_filter
   parameters:
     affinity: ''
     alias: ''
-    alpha1: '1.0'
-    alpha10: '1.0'
-    alpha2: '1.0'
-    alpha3: '1.0'
-    alpha4: '1.0'
-    alpha5: '1.0'
-    alpha6: '1.0'
-    alpha7: '1.0'
-    alpha8: '1.0'
-    alpha9: '1.0'
-    autoscale: 'False'
-    average: '1.0'
-    axislabels: 'True'
-    bw: samp_rate
-    color1: '"blue"'
-    color10: '"dark blue"'
-    color2: '"red"'
-    color3: '"green"'
-    color4: '"black"'
-    color5: '"cyan"'
-    color6: '"magenta"'
-    color7: '"yellow"'
-    color8: '"dark red"'
-    color9: '"dark green"'
+    beta: '6.76'
     comment: ''
-    ctrlpanel: 'False'
-    fc: '0'
-    fftsize: '1024'
-    freqhalf: 'True'
-    grid: 'False'
-    gui_hint: ''
-    label: Relative Gain
-    label1: ''
-    label10: ''''''
-    label2: ''''''
-    label3: ''''''
-    label4: ''''''
-    label5: ''''''
-    label6: ''''''
-    label7: ''''''
-    label8: ''''''
-    label9: ''''''
-    legend: 'True'
+    cutoff_freq: '50'
+    decim: '1'
+    gain: '1'
+    interp: '1'
     maxoutbuf: '0'
     minoutbuf: '0'
-    name: '""'
-    nconnections: '1'
-    norm_window: 'False'
-    showports: 'False'
-    tr_chan: '0'
-    tr_level: '0.0'
-    tr_mode: qtgui.TRIG_MODE_FREE
-    tr_tag: '""'
-    type: float
-    units: dB
-    update_time: '0.10'
-    width1: '1'
-    width10: '1'
-    width2: '1'
-    width3: '1'
-    width4: '1'
-    width5: '1'
-    width6: '1'
-    width7: '1'
-    width8: '1'
-    width9: '1'
-    wintype: window.WIN_BLACKMAN_hARRIS
-    ymax: '10'
-    ymin: '-140'
+    samp_rate: samp_rate
+    type: fir_filter_fff
+    width: '100'
+    win: window.WIN_HAMMING
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [464, 44.0]
+    coordinate: [328, 244.0]
     rotation: 0
     state: enabled
 - name: qtgui_time_sink_x_0
@@ -234,7 +194,7 @@ blocks:
     label7: Signal 7
     label8: Signal 8
     label9: Signal 9
-    legend: 'True'
+    legend: 'False'
     marker1: '-1'
     marker10: '-1'
     marker2: '-1'
@@ -286,7 +246,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [464, 132.0]
+    coordinate: [760, 180.0]
     rotation: 0
     state: enabled
 - name: qtgui_waterfall_sink_x_0
@@ -334,7 +294,7 @@ blocks:
     label7: ''
     label8: ''
     label9: ''
-    legend: 'True'
+    legend: 'False'
     maxoutbuf: '0'
     minoutbuf: '0'
     name: '""'
@@ -347,16 +307,17 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [464, 228.0]
+    coordinate: [760, 268.0]
     rotation: 0
     state: enabled
 
 connections:
-- [audio_source_0, '0', band_pass_filter_0, '0']
-- [audio_source_0, '0', qtgui_freq_sink_x_0, '0']
-- [audio_source_0, '0', qtgui_time_sink_x_0, '0']
-- [audio_source_0, '0', qtgui_waterfall_sink_x_0, '0']
+- [audio_source_0, '0', high_pass_filter_0, '0']
+- [band_pass_filter_0, '0', audio_sink_0, '0']
 - [band_pass_filter_0, '0', blocks_wavfile_sink_0, '0']
+- [band_pass_filter_0, '0', qtgui_time_sink_x_0, '0']
+- [band_pass_filter_0, '0', qtgui_waterfall_sink_x_0, '0']
+- [high_pass_filter_0, '0', band_pass_filter_0, '0']
 
 metadata:
   file_format: 1
