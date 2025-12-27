@@ -206,7 +206,7 @@ class recognizer(gr.top_block, Qt.QWidget):
                 100,
                 window.WIN_HAMMING,
                 6.76))
-        self.epy_block_0 = epy_block_0.blk(whisper_path="C:/whisper/whisper-cli.exe", model_path="C:/whisper/models/ggml-small.bin", sample_rate=48000, buffer_seconds=10, output_dir="C:/gnuradio_files")
+        self.epy_block_0 = epy_block_0.blk(whisper_path="C:/whisper/whisper-cli.exe", model_path="C:/whisper/models/ggml-small.bin", sample_rate=48000, buffer_seconds=10, overlap_seconds=5, output_dir="C:/gnuradio_files", num_workers=1)
         self.blocks_wavfile_sink_0 = blocks.wavfile_sink(
             'C:\\gnuradio_files\\records.wav',
             1,
@@ -254,10 +254,10 @@ class recognizer(gr.top_block, Qt.QWidget):
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
         self.band_pass_filter_0.set_taps(firdes.band_pass(1, self.samp_rate, 200, 5000, 100, window.WIN_HAMMING, 6.76))
+        self.high_pass_filter_0.set_taps(firdes.high_pass(1, self.samp_rate, 50, 100, window.WIN_HAMMING, 6.76))
         self.qtgui_freq_sink_x_0.set_frequency_range(0, self.samp_rate)
         self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
         self.qtgui_waterfall_sink_x_0.set_frequency_range(0, self.samp_rate)
-        self.high_pass_filter_0.set_taps(firdes.high_pass(1, self.samp_rate, 50, 100, window.WIN_HAMMING, 6.76))
 
 
 
