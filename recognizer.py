@@ -70,42 +70,6 @@ class recognizer(gr.top_block, Qt.QWidget):
         # Blocks
         ##################################################
 
-        self.qtgui_waterfall_sink_x_1 = qtgui.waterfall_sink_f(
-            1024, #size
-            window.WIN_BLACKMAN_hARRIS, #wintype
-            0, #fc
-            samp_rate, #bw
-            "", #name
-            1, #number of inputs
-            None # parent
-        )
-        self.qtgui_waterfall_sink_x_1.set_update_time(0.10)
-        self.qtgui_waterfall_sink_x_1.enable_grid(False)
-        self.qtgui_waterfall_sink_x_1.enable_axis_labels(True)
-
-
-        self.qtgui_waterfall_sink_x_1.set_plot_pos_half(not True)
-
-        labels = ['', '', '', '', '',
-                  '', '', '', '', '']
-        colors = [0, 0, 0, 0, 0,
-                  0, 0, 0, 0, 0]
-        alphas = [1.0, 1.0, 1.0, 1.0, 1.0,
-                  1.0, 1.0, 1.0, 1.0, 1.0]
-
-        for i in range(1):
-            if len(labels[i]) == 0:
-                self.qtgui_waterfall_sink_x_1.set_line_label(i, "Data {0}".format(i))
-            else:
-                self.qtgui_waterfall_sink_x_1.set_line_label(i, labels[i])
-            self.qtgui_waterfall_sink_x_1.set_color_map(i, colors[i])
-            self.qtgui_waterfall_sink_x_1.set_line_alpha(i, alphas[i])
-
-        self.qtgui_waterfall_sink_x_1.set_intensity_range(-140, 10)
-
-        self._qtgui_waterfall_sink_x_1_win = sip.wrapinstance(self.qtgui_waterfall_sink_x_1.qwidget(), Qt.QWidget)
-
-        self.top_layout.addWidget(self._qtgui_waterfall_sink_x_1_win)
         self.qtgui_waterfall_sink_x_0 = qtgui.waterfall_sink_f(
             1024, #size
             window.WIN_BLACKMAN_hARRIS, #wintype
@@ -233,7 +197,7 @@ class recognizer(gr.top_block, Qt.QWidget):
 
         self._qtgui_freq_sink_x_0_win = sip.wrapinstance(self.qtgui_freq_sink_x_0.qwidget(), Qt.QWidget)
         self.top_layout.addWidget(self._qtgui_freq_sink_x_0_win)
-        self.epy_block_0 = epy_block_0.blk(example_param=1.0)
+        self.epy_block_0 = epy_block_0.blk(whisper_path="C:/whisper/whisper-cli.exe", model_path="C:/whisper/models/ggml-small.bin", sample_rate=48000, buffer_seconds=10, output_dir="C:/gnuradio_files")
         self.blocks_wavfile_sink_0 = blocks.wavfile_sink(
             'C:\\gnuradio_files\\records.wav',
             1,
@@ -264,7 +228,6 @@ class recognizer(gr.top_block, Qt.QWidget):
         self.connect((self.audio_source_0, 0), (self.qtgui_waterfall_sink_x_0, 0))
         self.connect((self.band_pass_filter_0, 0), (self.blocks_wavfile_sink_0, 0))
         self.connect((self.band_pass_filter_0, 0), (self.epy_block_0, 0))
-        self.connect((self.epy_block_0, 0), (self.qtgui_waterfall_sink_x_1, 0))
 
 
     def closeEvent(self, event):
@@ -284,7 +247,6 @@ class recognizer(gr.top_block, Qt.QWidget):
         self.qtgui_freq_sink_x_0.set_frequency_range(0, self.samp_rate)
         self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
         self.qtgui_waterfall_sink_x_0.set_frequency_range(0, self.samp_rate)
-        self.qtgui_waterfall_sink_x_1.set_frequency_range(0, self.samp_rate)
 
 
 
