@@ -61,7 +61,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [72, 404.0]
+    coordinate: [64, 388.0]
     rotation: 0
     state: enabled
 - name: band_pass_filter_0
@@ -108,7 +108,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [432, 28.0]
+    coordinate: [448, 28.0]
     rotation: 0
     state: enabled
 - name: epy_block_0
@@ -127,18 +127,17 @@ blocks:
       ,\n                 model_path=\"C:/whisper/models/ggml-large-v3.bin\",\n  \
       \               sample_rate=48000,\n                 buffer_seconds=2,\n   \
       \              output_dir=\"C:/gnuradio_files\"):\n\n        gr.sync_block.__init__(\n\
-      \            self,\n            name=\"Whisper.cpp Continuous Recognition (Safe\
-      \ Shutdown)\",\n            in_sig=[np.float32],\n            out_sig=None\n\
-      \        )\n\n        self.whisper_path = whisper_path\n        self.model_path\
-      \ = model_path\n        self.sample_rate = sample_rate\n        self.buffer_seconds\
-      \ = buffer_seconds\n        self.output_dir = output_dir\n\n        self.buffer\
-      \ = []\n        self.queue = queue.Queue()\n        self.stop_event = threading.Event()\n\
-      \n        os.makedirs(self.output_dir, exist_ok=True)\n        self.error_log\
-      \ = os.path.join(self.output_dir, \"errors.log\")\n\n        self.current_hour_file\
-      \ = self.get_hour_file_path()\n\n        # \u041D\u0415 daemon!\n        self.worker\
-      \ = threading.Thread(target=self.worker_thread)\n        self.worker.start()\n\
-      \n    # ------------------------------------------------------------\n\n   \
-      \ def get_hour_file_path(self):\n        now = datetime.now()\n        return\
+      \            self,\n            name=\"Whisper.cpp Recognition\",\n        \
+      \    in_sig=[np.float32],\n            out_sig=None\n        )\n\n        self.whisper_path\
+      \ = whisper_path\n        self.model_path = model_path\n        self.sample_rate\
+      \ = sample_rate\n        self.buffer_seconds = buffer_seconds\n        self.output_dir\
+      \ = output_dir\n\n        self.buffer = []\n        self.queue = queue.Queue()\n\
+      \        self.stop_event = threading.Event()\n\n        os.makedirs(self.output_dir,\
+      \ exist_ok=True)\n        self.error_log = os.path.join(self.output_dir, \"\
+      errors.log\")\n\n        self.current_hour_file = self.get_hour_file_path()\n\
+      \n        # \u041D\u0415 daemon!\n        self.worker = threading.Thread(target=self.worker_thread)\n\
+      \        self.worker.start()\n\n    # ------------------------------------------------------------\n\
+      \n    def get_hour_file_path(self):\n        now = datetime.now()\n        return\
       \ os.path.join(\n            self.output_dir,\n            f\"recognized_{now.strftime('%Y-%m-%d_%H')}.txt\"\
       \n        )\n\n    # ------------------------------------------------------------\n\
       \n    def work(self, input_items, output_items):\n        audio = (input_items[0]\
@@ -201,9 +200,9 @@ blocks:
     sample_rate: '48000'
     whisper_path: '"C:/whisper/whisper-cli.exe"'
   states:
-    _io_cache: "('Whisper.cpp Continuous Recognition (Safe Shutdown)', 'blk', [('whisper_path',\
-      \ \"'C:/whisper/whisper-cli.exe'\"), ('model_path', \"'C:/whisper/models/ggml-large-v3.bin'\"\
-      ), ('sample_rate', '48000'), ('buffer_seconds', '2'), ('output_dir', \"'C:/gnuradio_files'\"\
+    _io_cache: "('Whisper.cpp Recognition', 'blk', [('whisper_path', \"'C:/whisper/whisper-cli.exe'\"\
+      ), ('model_path', \"'C:/whisper/models/ggml-large-v3.bin'\"), ('sample_rate',\
+      \ '48000'), ('buffer_seconds', '2'), ('output_dir', \"'C:/gnuradio_files'\"\
       )], [('0', 'float', 1)], [], '\\n    \u0414\u043E\u043B\u0433\u043E\u0432\u0440\
       \u0435\u043C\u0435\u043D\u043D\u043E\u0435 \u043D\u0435\u043F\u0440\u0435\u0440\
       \u044B\u0432\u043D\u043E\u0435 \u0440\u0430\u0441\u043F\u043E\u0437\u043D\u0430\
@@ -215,7 +214,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [560, 196.0]
+    coordinate: [648, 196.0]
     rotation: 0
     state: enabled
 - name: high_pass_filter_0
@@ -239,7 +238,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [312, 372.0]
+    coordinate: [304, 356.0]
     rotation: 0
     state: enabled
 - name: qtgui_freq_sink_x_0
@@ -320,7 +319,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [640, 108.0]
+    coordinate: [664, 404.0]
     rotation: 0
     state: enabled
 - name: qtgui_time_sink_x_0
@@ -417,7 +416,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [624, 324.0]
+    coordinate: [664, 108.0]
     rotation: 0
     state: enabled
 - name: qtgui_waterfall_sink_x_0
@@ -478,7 +477,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [624, 420.0]
+    coordinate: [664, 316.0]
     rotation: 0
     state: enabled
 

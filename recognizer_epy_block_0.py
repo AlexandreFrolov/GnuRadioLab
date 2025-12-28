@@ -24,7 +24,7 @@ class blk(gr.sync_block):
 
         gr.sync_block.__init__(
             self,
-            name="Whisper.cpp Continuous Recognition (Safe Shutdown)",
+            name="Whisper.cpp Recognition",
             in_sig=[np.float32],
             out_sig=None
         )
