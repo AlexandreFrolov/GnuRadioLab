@@ -14,9 +14,8 @@ from gnuradio import qtgui
 from gnuradio import analog
 from gnuradio import audio
 from gnuradio import blocks
-from gnuradio import filter
-from gnuradio.filter import firdes
 from gnuradio import gr
+from gnuradio.filter import firdes
 from gnuradio.fft import window
 import sys
 import signal
@@ -71,93 +70,60 @@ class sweep1(gr.top_block, Qt.QWidget):
         # Blocks
         ##################################################
 
-        self.qtgui_waterfall_sink_x_0_0 = qtgui.waterfall_sink_f(
-            16384, #size
-            window.WIN_HANN, #wintype
-            0, #fc
-            30000, #bw
+        self.qtgui_time_sink_x_0 = qtgui.time_sink_f(
+            1024, #size
+            samp_rate, #samp_rate
             "", #name
             1, #number of inputs
             None # parent
         )
-        self.qtgui_waterfall_sink_x_0_0.set_update_time(0.2)
-        self.qtgui_waterfall_sink_x_0_0.enable_grid(True)
-        self.qtgui_waterfall_sink_x_0_0.enable_axis_labels(True)
+        self.qtgui_time_sink_x_0.set_update_time(0.01)
+        self.qtgui_time_sink_x_0.set_y_axis(-1, 1)
 
+        self.qtgui_time_sink_x_0.set_y_label('Amplitude', "")
 
-        self.qtgui_waterfall_sink_x_0_0.set_plot_pos_half(not False)
+        self.qtgui_time_sink_x_0.enable_tags(True)
+        self.qtgui_time_sink_x_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, 0, "")
+        self.qtgui_time_sink_x_0.enable_autoscale(False)
+        self.qtgui_time_sink_x_0.enable_grid(True)
+        self.qtgui_time_sink_x_0.enable_axis_labels(True)
+        self.qtgui_time_sink_x_0.enable_control_panel(False)
+        self.qtgui_time_sink_x_0.enable_stem_plot(False)
 
-        labels = ['', '', '', '', '',
-                  '', '', '', '', '']
-        colors = [0, 0, 0, 0, 0,
-                  0, 0, 0, 0, 0]
+        self.qtgui_time_sink_x_0.disable_legend()
+
+        labels = ['Signal 1', 'Signal 2', 'Signal 3', 'Signal 4', 'Signal 5',
+            'Signal 6', 'Signal 7', 'Signal 8', 'Signal 9', 'Signal 10']
+        widths = [1, 1, 1, 1, 1,
+            1, 1, 1, 1, 1]
+        colors = ['blue', 'red', 'green', 'black', 'cyan',
+            'magenta', 'yellow', 'dark red', 'dark green', 'dark blue']
         alphas = [1.0, 1.0, 1.0, 1.0, 1.0,
-                  1.0, 1.0, 1.0, 1.0, 1.0]
+            1.0, 1.0, 1.0, 1.0, 1.0]
+        styles = [1, 1, 1, 1, 1,
+            1, 1, 1, 1, 1]
+        markers = [-1, -1, -1, -1, -1,
+            -1, -1, -1, -1, -1]
+
 
         for i in range(1):
             if len(labels[i]) == 0:
-                self.qtgui_waterfall_sink_x_0_0.set_line_label(i, "Data {0}".format(i))
+                self.qtgui_time_sink_x_0.set_line_label(i, "Data {0}".format(i))
             else:
-                self.qtgui_waterfall_sink_x_0_0.set_line_label(i, labels[i])
-            self.qtgui_waterfall_sink_x_0_0.set_color_map(i, colors[i])
-            self.qtgui_waterfall_sink_x_0_0.set_line_alpha(i, alphas[i])
+                self.qtgui_time_sink_x_0.set_line_label(i, labels[i])
+            self.qtgui_time_sink_x_0.set_line_width(i, widths[i])
+            self.qtgui_time_sink_x_0.set_line_color(i, colors[i])
+            self.qtgui_time_sink_x_0.set_line_style(i, styles[i])
+            self.qtgui_time_sink_x_0.set_line_marker(i, markers[i])
+            self.qtgui_time_sink_x_0.set_line_alpha(i, alphas[i])
 
-        self.qtgui_waterfall_sink_x_0_0.set_intensity_range(-140, 10)
-
-        self._qtgui_waterfall_sink_x_0_0_win = sip.wrapinstance(self.qtgui_waterfall_sink_x_0_0.qwidget(), Qt.QWidget)
-
-        self.top_layout.addWidget(self._qtgui_waterfall_sink_x_0_0_win)
-        self.qtgui_waterfall_sink_x_0 = qtgui.waterfall_sink_f(
-            16384, #size
-            window.WIN_HANN, #wintype
-            0, #fc
-            30000, #bw
-            "", #name
-            1, #number of inputs
-            None # parent
-        )
-        self.qtgui_waterfall_sink_x_0.set_update_time(0.2)
-        self.qtgui_waterfall_sink_x_0.enable_grid(True)
-        self.qtgui_waterfall_sink_x_0.enable_axis_labels(True)
-
-
-        self.qtgui_waterfall_sink_x_0.set_plot_pos_half(not False)
-
-        labels = ['', '', '', '', '',
-                  '', '', '', '', '']
-        colors = [0, 0, 0, 0, 0,
-                  0, 0, 0, 0, 0]
-        alphas = [1.0, 1.0, 1.0, 1.0, 1.0,
-                  1.0, 1.0, 1.0, 1.0, 1.0]
-
-        for i in range(1):
-            if len(labels[i]) == 0:
-                self.qtgui_waterfall_sink_x_0.set_line_label(i, "Data {0}".format(i))
-            else:
-                self.qtgui_waterfall_sink_x_0.set_line_label(i, labels[i])
-            self.qtgui_waterfall_sink_x_0.set_color_map(i, colors[i])
-            self.qtgui_waterfall_sink_x_0.set_line_alpha(i, alphas[i])
-
-        self.qtgui_waterfall_sink_x_0.set_intensity_range(-140, 10)
-
-        self._qtgui_waterfall_sink_x_0_win = sip.wrapinstance(self.qtgui_waterfall_sink_x_0.qwidget(), Qt.QWidget)
-
-        self.top_layout.addWidget(self._qtgui_waterfall_sink_x_0_win)
-        self.blocks_vco_f_0 = blocks.vco_f(samp_rate, 15080, 1)
+        self._qtgui_time_sink_x_0_win = sip.wrapinstance(self.qtgui_time_sink_x_0.qwidget(), Qt.QWidget)
+        self.top_layout.addWidget(self._qtgui_time_sink_x_0_win)
+        self.blocks_vco_f_0 = blocks.vco_f(samp_rate, 800, 1)
         self.blocks_add_xx_0 = blocks.add_vff(1)
-        self.band_pass_filter_0 = filter.interp_fir_filter_fff(
-            1,
-            firdes.band_pass(
-                1,
-                samp_rate,
-                400,
-                3400,
-                1,
-                window.WIN_HANN,
-                6.76))
         self.audio_sink_0 = audio.sink(samp_rate, '', True)
-        self.analog_sig_source_x_0 = analog.sig_source_f(samp_rate, analog.GR_SAW_WAVE, 0.5, 1, 0, (-3.14))
-        self.analog_const_source_x_0 = analog.sig_source_f(0, analog.GR_CONST_WAVE, 0, 0, 1.083)
+        self.analog_sig_source_x_0 = analog.sig_source_f(samp_rate, analog.GR_SAW_WAVE, 1, 1, 0, 0)
+        self.analog_const_source_x_0 = analog.sig_source_f(0, analog.GR_CONST_WAVE, 0, 0, 1.5)
 
 
         ##################################################
@@ -165,11 +131,9 @@ class sweep1(gr.top_block, Qt.QWidget):
         ##################################################
         self.connect((self.analog_const_source_x_0, 0), (self.blocks_add_xx_0, 1))
         self.connect((self.analog_sig_source_x_0, 0), (self.blocks_add_xx_0, 0))
-        self.connect((self.band_pass_filter_0, 0), (self.audio_sink_0, 0))
-        self.connect((self.band_pass_filter_0, 0), (self.qtgui_waterfall_sink_x_0, 0))
         self.connect((self.blocks_add_xx_0, 0), (self.blocks_vco_f_0, 0))
-        self.connect((self.blocks_vco_f_0, 0), (self.band_pass_filter_0, 0))
-        self.connect((self.blocks_vco_f_0, 0), (self.qtgui_waterfall_sink_x_0_0, 0))
+        self.connect((self.blocks_vco_f_0, 0), (self.audio_sink_0, 0))
+        self.connect((self.blocks_vco_f_0, 0), (self.qtgui_time_sink_x_0, 0))
 
 
     def closeEvent(self, event):
@@ -186,7 +150,7 @@ class sweep1(gr.top_block, Qt.QWidget):
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
         self.analog_sig_source_x_0.set_sampling_freq(self.samp_rate)
-        self.band_pass_filter_0.set_taps(firdes.band_pass(1, self.samp_rate, 400, 3400, 1, window.WIN_HANN, 6.76))
+        self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
 
 
 

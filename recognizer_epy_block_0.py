@@ -3,11 +3,11 @@ from gnuradio import gr
 import wave
 import subprocess
 import tempfile
-import os
 import threading
 import queue
 from datetime import datetime
-
+import sys
+import os
 
 class blk(gr.sync_block):
     """
