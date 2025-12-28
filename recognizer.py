@@ -234,10 +234,10 @@ class recognizer(gr.top_block, Qt.QWidget):
         self.connect((self.audio_source_0, 0), (self.high_pass_filter_0, 0))
         self.connect((self.band_pass_filter_0, 0), (self.blocks_wavfile_sink_0, 0))
         self.connect((self.band_pass_filter_0, 0), (self.epy_block_0, 0))
+        self.connect((self.band_pass_filter_0, 0), (self.qtgui_freq_sink_x_0, 0))
+        self.connect((self.band_pass_filter_0, 0), (self.qtgui_time_sink_x_0, 0))
+        self.connect((self.band_pass_filter_0, 0), (self.qtgui_waterfall_sink_x_0, 0))
         self.connect((self.high_pass_filter_0, 0), (self.band_pass_filter_0, 0))
-        self.connect((self.high_pass_filter_0, 0), (self.qtgui_freq_sink_x_0, 0))
-        self.connect((self.high_pass_filter_0, 0), (self.qtgui_time_sink_x_0, 0))
-        self.connect((self.high_pass_filter_0, 0), (self.qtgui_waterfall_sink_x_0, 0))
 
 
     def closeEvent(self, event):
