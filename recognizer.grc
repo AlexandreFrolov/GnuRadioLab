@@ -28,7 +28,7 @@ options:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [72, 52.0]
+    coordinate: [72, 100.0]
     rotation: 0
     state: enabled
 
@@ -42,7 +42,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [72, 156.0]
+    coordinate: [72, 204.0]
     rotation: 0
     state: enabled
 - name: audio_source_0
@@ -61,7 +61,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [72, 356.0]
+    coordinate: [72, 404.0]
     rotation: 0
     state: enabled
 - name: band_pass_filter_0
@@ -86,7 +86,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [368, 100.0]
+    coordinate: [312, 180.0]
     rotation: 0
     state: enabled
 - name: blocks_wavfile_sink_0
@@ -108,7 +108,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [776, 116.0]
+    coordinate: [432, 28.0]
     rotation: 0
     state: enabled
 - name: epy_block_0
@@ -215,7 +215,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [592, 236.0]
+    coordinate: [560, 196.0]
     rotation: 0
     state: enabled
 - name: high_pass_filter_0
@@ -239,7 +239,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [312, 324.0]
+    coordinate: [312, 372.0]
     rotation: 0
     state: enabled
 - name: qtgui_freq_sink_x_0
@@ -320,7 +320,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [584, 36.0]
+    coordinate: [640, 108.0]
     rotation: 0
     state: enabled
 - name: qtgui_time_sink_x_0
@@ -417,7 +417,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [584, 132.0]
+    coordinate: [624, 324.0]
     rotation: 0
     state: enabled
 - name: qtgui_waterfall_sink_x_0
@@ -478,7 +478,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [552, 372.0]
+    coordinate: [624, 420.0]
     rotation: 0
     state: enabled
 
